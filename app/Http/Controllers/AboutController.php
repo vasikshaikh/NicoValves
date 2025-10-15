@@ -11,10 +11,10 @@ class AboutController extends Controller
 {
     public function addAbout()
     {
-         return redirect()->route('listAbout', ['open' => 'add']);
+        return redirect()->route('listAbout', ['open' => 'add']);
     }
 
-       public function saveAbout(Request $request)
+    public function saveAbout(Request $request)
     {
         $request->validate([
             'title' => 'required|string|max:255',
@@ -26,9 +26,9 @@ class AboutController extends Controller
         $about->title = $request->title;
         $about->description = $request->description;
 
-        if($request->hasFile('image')){
+        if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $imageName = time().'_'.Str::slug($request->title).'.'.$image->getClientOriginalExtension();
+            $imageName = time() . '_' . Str::slug($request->title) . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('AboutImage'), $imageName);
             $about->image = $imageName;
         }
@@ -42,8 +42,8 @@ class AboutController extends Controller
     {
         $query = AboutInfo::query();
 
-        if($request->q){
-            $query->where('title', 'like', '%'.$request->q.'%');
+        if ($request->q) {
+            $query->where('title', 'like', '%' . $request->q . '%');
         }
 
         $length = $request->length ?? 10;
@@ -64,42 +64,82 @@ class AboutController extends Controller
         ]);
     }
 
-   public function updateAbout(Request $request, $id)
-{
-    $request->validate([
-        'title' => 'required|string|max:255',
-        'description' => 'nullable|string',
-        'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
-    ]);
+    //    public function updateAbout(Request $request, $id)
+    // {
+    //     $request->validate([
+    //         'title' => 'required|string|max:255',
+    //         'description' => 'nullable|string',
+    //         'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+    //     ]);
 
-    $about = AboutInfo::findOrFail($id);
-    $about->title = $request->title;
-    $about->description = $request->description;
+    //     $about = AboutInfo::findOrFail($id);
+    //     $about->title = $request->title;
+    //     $about->description = $request->description;
 
-    if($request->hasFile('image')){
-        // Delete old image if exists
-        if($about->image && file_exists(public_path('AboutImage/'.$about->image))){
-            unlink(public_path('AboutImage/'.$about->image));
+    //     if($request->hasFile('image')){
+    //         // Delete old image if exists
+    //         if($about->image && file_exists(public_path('AboutImage/'.$about->image))){
+    //             unlink(public_path('AboutImage/'.$about->image));
+    //         }
+
+    //         $image = $request->file('image');
+    //         $imageName = time().'_'.Str::slug($request->title).'.'.$image->getClientOriginalExtension();
+    //         $image->move(public_path('AboutImage'), $imageName);
+    //         $about->image = $imageName;
+    //     }
+
+    //     $about->save();
+
+    //     return redirect()->route('listAbout')->with('success', 'About infomation updated successfully.');
+    // }
+
+    public function updateAbout(Request $request, $id)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+        ]);
+
+        $about = AboutInfo::findOrFail($id);
+
+        $about->title = $request->title;
+        $about->description = $request->description;
+
+        // Handle image removal (if user clicked the red X)
+        if ($request->has('remove_image') && $request->remove_image == 1) {
+            if ($about->image && file_exists(public_path('AboutImage/' . $about->image))) {
+                unlink(public_path('AboutImage/' . $about->image));
+            }
+            $about->image = null;
         }
 
-        $image = $request->file('image');
-        $imageName = time().'_'.Str::slug($request->title).'.'.$image->getClientOriginalExtension();
-        $image->move(public_path('AboutImage'), $imageName);
-        $about->image = $imageName;
+        // Handle image upload (replace old one)
+        if ($request->hasFile('image')) {
+            // Delete old image if exists
+            if ($about->image && file_exists(public_path('AboutImage/' . $about->image))) {
+                unlink(public_path('AboutImage/' . $about->image));
+            }
+
+            $image = $request->file('image');
+            $imageName = time() . '_' . Str::slug($request->title) . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('AboutImage'), $imageName);
+            $about->image = $imageName;
+        }
+
+        $about->save();
+
+        return redirect()->route('listAbout')->with('success', 'About information updated successfully.');
     }
 
-    $about->save();
-
-    return redirect()->route('listAbout')->with('success', 'About infomation updated successfully.');
-}
 
 
     public function deleteAbout($id)
     {
         $about = AboutInfo::findOrFail($id);
 
-        if($about->image && File::exists(public_path('AboutImage/'.$about->image))){
-            File::delete(public_path('AboutImage/'.$about->image));
+        if ($about->image && File::exists(public_path('AboutImage/' . $about->image))) {
+            File::delete(public_path('AboutImage/' . $about->image));
         }
 
         $about->delete();

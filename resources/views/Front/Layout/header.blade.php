@@ -11,7 +11,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="wpOceans">
-    <link rel="shortcut icon" type="image/png" href="{{ asset('front_assets/assets/images/favicon.png') }}">
+    <link rel="shortcut icon" type="image/png" href="{{ asset('images/logo.png') }}">
     <title>Shreenath Engineering</title>
 
     <link href="{{ asset('front_assets/assets/css/themify-icons.css') }}" rel="stylesheet">
@@ -44,7 +44,8 @@
                     <div class="loader-line-mask">
                         <div class="loader-line"></div>
                     </div>
-                    <img src="front_assets/assets/images/logo.png" alt="">
+                    {{--  <img src="front_assets/assets/images/logo.png" alt=""> --}}
+                    <img src="{{ asset('images/logo.png') }}" alt="" style="width: 100px">
                 </div>
             </div>
         </div>
@@ -108,8 +109,9 @@
                             </div>
                             <div class="col-lg-2 col-md-6 col-6">
                                 <div class="navbar-header">
-                                    <a class="navbar-brand" href="index-2.html"><img
-                                            src="front_assets/assets/images/logo.png" alt="logo"></a>
+                                    <a class="navbar-brand" href="{{ route('homeWebsite') }}">
+                                        <img src="{{ asset('images/logo.png') }}" alt="logo">
+                                    </a>
                                 </div>
                             </div>
                             <div class="col-lg-10 col-md-1 col-1 nav-responsive">

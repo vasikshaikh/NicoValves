@@ -96,7 +96,10 @@
         </div>
     </div>
 
-    <section class="wpo-about-section-s3 section-padding">
+
+
+
+    {{-- <section class="wpo-about-section-s3 section-padding">
         <div class="container">
             <div class="row align-items-center">
 
@@ -106,7 +109,7 @@
                             <h2>About Company</h2>
                             <h3>{{ $about_data->title }}</h3>
 
-                            <p>{!! $about_data->description !!}</p> {{-- Correct unescaped syntax --}}
+                            <p>{!! $about_data->description !!}</p>
 
                             <div class="icon">
                                 <img src="{{ asset('AboutImage/' . $about_data->image) }}" alt="">
@@ -124,47 +127,7 @@
                     <div class="about-title">
                         <h3>Why NECON Valves?</h3>
                     </div>
-                    {{-- <div class="row">
-                        <div class="col-md-6 about-box">
-                            <div class="inner">
-                                <div class="icon">
-                                    <img src="{{ asset('front_assets/assets/images/icon/about-1.png') }}" alt="">
-                                </div>
-                                <h4>Best Quality</h4>
-                                <p>Our knowledge in the domain blended with the vast experience has enabled us to serve our
-                                    customers with the best they need.</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6 about-box">
-                            <div class="inner">
-                                <div class="icon">
-                                    <img src="{{ asset('front_assets/assets/images/icon/about-2.png') }}" alt="">
-                                </div>
-                                <h4>Exact Price</h4>
-                                <p>We aim to provide more then best in worth money Price.</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6 about-box">
-                            <div class="inner">
-                                <div class="icon">
-                                    <img src="{{ asset('front_assets/assets/images/icon/about-3.png') }}" alt="">
-                                </div>
-                                <h4>Engineering Excellence</h4>
-                                <p>"To be the leading innovator in valve technology, setting industry standards for
-                                    reliability, efficiency, and sustainability."</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6 about-box">
-                            <div class="inner">
-                                <div class="icon">
-                                    <img src="{{ asset('front_assets/assets/images/icon/about-4.png') }}" alt="">
-                                </div>
-                                <h4>Global Presence</h4>
-                                <p>"With a strong global footprint, we serve diverse industries worldwide, leveraging our
-                                    international expertise to deliver."</p>
-                            </div>
-                        </div>
-                    </div> --}}
+
 
                     <div class="row">
                         @foreach ($goal_data as $goal)
@@ -184,127 +147,267 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
 
+<!-- AOS CSS -->
+<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
+<!-- AOS JS -->
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+  AOS.init({
+    duration: 1000, // animation duration
+    once: true,     // animation only once
+    easing: 'ease-in-out',
+  });
+</script>
 
+<section class="wpo-about-section-s3 section-padding" style="padding: 80px 0; background: #f9fafc;">
+    <div class="container">
+        <div class="row align-items-center">
 
-    <section class="wpo-service-section-s2 section-padding">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-6 col-12">
-                    <div class="wpo-section-title-s2">
+            <!-- Left Side: About Company -->
+            <div class="col-lg-6 col-12" data-aos="fade-right">
+                <div class="content">
+                    <div class="text">
+                        <h2 style="font-size: 32px; font-weight: 700; color: #222; margin-bottom: 10px;">About Company</h2>
+                        <h3 style="font-size: 24px; font-weight: 600; color: #003c95; margin-bottom: 20px;">
+                            {{ $about_data->title }}
+                        </h3>
 
-                        <h3>Our Products</h3>
-                    </div>
-                </div>
-            </div>
-            {{-- <div class="row">
+                        <p style="color: #555; line-height: 1.8; font-size: 16px;">
+                            {!! $about_data->description !!}
+                        </p>
 
-                <div class="col-lg-3 col-md-4 col-12">
-                    <div class="service-card">
-                        <a href="wafer-butterfly-valve.html">
-                            <div class="image">
-                                <img src="{{ asset('front_assets/assets/images/products/img-66.png') }}" alt="">
-                            </div>
-                            <div class="content">
-                                <h2><a href="wafer-butterfly-valve.html">Wafer Type Butterfly Valve</a></h2>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-4 col-12">
-                    <div class="service-card">
-                        <a href="lug-type-butterfly-valve.html">
-                            <div class="image">
-                                <img src="{{ asset('front_assets/assets/images/products/img-67.png') }}" alt="">
-                            </div>
-                            <div class="content">
-                                <h2><a href="lug-type-butterfly-valve.html">Lug Type Butterfly Valve</a></h2>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-4 col-12">
-                    <div class="service-card">
-                        <a href="double-flanged-butterfly-valve.html">
-                            <div class="image">
-                                <img src="{{ asset('front_assets/assets/images/products/img-4.png') }}" alt="">
-                            </div>
-                            <div class="content">
-                                <h2><a href="double-flanged-butterfly-valve.html">Double Flanged Butterfly Valve</a></h2>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-4 col-12">
-                    <div class="service-card">
-                        <a href="double-offset-disc-design.html">
-                            <div class="image">
-                                <img src="{{ asset('front_assets/assets/images/products/img-68.png') }}" alt="">
-                            </div>
-                            <div class="content">
-                                <h2><a href="double-offset-disc-design.html">Double Offset Disc Design</a></h2>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-            </div> --}}
-
-            <div class="row">
-                @foreach ($product_data as $product)
-                    <div class="col-lg-3 col-md-4 col-12">
-                        <div class="service-card">
-                            <div class="image">
-                                @php
-                                    // Decode JSON array for product images
-                                    $images = json_decode($product->image);
-                                    $first_image = isset($images[0]) ? $images[0] : 'default-product.png';
-                                @endphp
-                                <img src="{{ asset('productImage/' . $first_image) }}" alt="{{ $product->title }}" style="height: 200px;">
-                            </div>
-                            <div class="content">
-                                <h2>{{ $product->title }}</h2>
-                                @if ($product->document)
-                                    <p style="margin-top:10px;">
-                                        <a href="{{ asset('ProductDocuments/' . $product->document) }}" target="_blank"
-                                            style="
-                                                    display: inline-flex;
-                                                    align-items: center;
-                                                    gap: 6px;
-                                                    padding: 6px 12px;
-                                                    background-color: #2073c6 ;
-                                                    color: #fff;
-                                                    border-radius: 30px;
-                                                    text-decoration: none;
-                                                    font-weight: 500;
-                                                    transition: background-color 0.3s, transform 0.2s;
-                                                "
-                                            onmouseover="this.style.backgroundColor='#f44336'; this.style.transform='scale(1.05)';"
-                                            onmouseout="this.style.backgroundColor='#2073c6 '; this.style.transform='scale(1)';">
-                                            <img src="{{ asset('front_assets/assets/images/pdf-icon.png') }}"
-                                                alt="PDF" style="width:20px; height:20px;">
-                                            Download PDF
-                                        </a>
-                                    </p>
-                                @endif
-                            </div>
+                        <div class="icon" style="margin-top: 25px; overflow: hidden; border-radius: 10px;">
+                            <img src="{{ asset('AboutImage/' . $about_data->image) }}" alt=""
+                                 style="width: 100%; max-width: 450px; object-fit: cover; transition: transform 0.5s;"
+                                 class="about-img">
                         </div>
                     </div>
-                @endforeach
+
+                    <div class="about-btn" style="margin-top: 25px;">
+                        <a href="{{ route('aboutWebsite') }}"
+                           style="display: inline-block; background: #003c95; color: #fff; padding: 12px 25px; border-radius: 8px;
+                                  text-decoration: none; font-weight: 600; transition: all 0.3s;"
+                           class="btn-hover">
+                            About Us
+                        </a>
+                    </div>
+                </div>
             </div>
 
+            <!-- Right Side: Why NECON Valves -->
+            <div class="col-lg-6 col-12" style="margin-top: 30px;">
+                <div class="about-title" data-aos="fade-left" style="margin-bottom: 30px;">
+                    <h3 style="font-size: 26px; font-weight: 700; color: #222;">Why NECON Valves?</h3>
+                </div>
+
+                <div class="row">
+                    @foreach ($goal_data as $goal)
+                        <div class="col-md-6 about-box" style="margin-bottom: 25px;" data-aos="zoom-in" data-aos-delay="{{ $loop->index * 200 }}">
+                            <div class="inner"
+                                 style="background: #fff; padding: 25px; border-radius: 10px; box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+                                        text-align: center; transition: transform 0.5s, box-shadow 0.5s;">
+                                <div class="icon" style="margin-bottom: 15px;">
+                                    <img src="{{ asset('GoalImage/' . $goal->image) }}" alt=""
+                                         style="width: 70px; height: 70px; object-fit: contain; transition: transform 0.5s;"
+                                         class="goal-img">
+                                </div>
+                                <h4 style="font-size: 18px; font-weight: 600; color: #003c95; margin-bottom: 10px;">
+                                    {{ $goal->title }}
+                                </h4>
+                                <p style="font-size: 15px; color: #555; line-height: 1.6;">
+                                    {{ $goal->description }}
+                                </p>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <style>
+        /* Hover effect for About image */
+        .about-img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Hover effect for goal images */
+        .goal-img:hover {
+            transform: scale(1.1);
+        }
+
+        /* Hover effect for button */
+        .btn-hover:hover {
+            background: #0056b3;
+            transform: translateY(-3px);
+        }
+
+        /* Hover effect for goal cards */
+        .about-box .inner:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+    </style>
+</section>
 
 
-            <div class="main-btn">
-                <a href="{{ route('websiteCategoryList') }}">View More</a>
+<section class="wpo-service-section-s2 section-padding">
+    <div class="container">
+        {{-- Section Title --}}
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10 col-12">
+                <div class="wpo-section-title-s2">
+                    <h2>Our Featured Products</h2>
+                </div>
             </div>
         </div>
-    </section>
+
+        {{-- Product Grid --}}
+        <div class="row">
+            @forelse ($product_data as $product)
+                <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-4">
+                    {{-- 1. Improved Product Card --}}
+                    <div class="product-card">
+                        <a href="{{-- route('productDetails', $product->id) --}}" class="product-image-link">
+                            <div class="product-image">
+                                @php
+                                    // Cleaner logic for getting the first image
+                                    $first_image = 'default-product.png'; // Default image
+                                    if (!empty($product->image)) {
+                                        $images = json_decode($product->image);
+                                        if (is_array($images) && !empty($images)) {
+                                            $first_image = $images[0];
+                                        }
+                                    }
+                                @endphp
+                                <img src="{{ asset('productImage/' . $first_image) }}" alt="{{ $product->title }}">
+                            </div>
+                        </a>
+                        <div class="product-content">
+                            <h3 class="product-title">{{ $product->title }}</h3>
+
+                            {{-- 2. Improved PDF Download Button --}}
+                            @if ($product->document)
+                                <a href="{{ asset('ProductDocuments/' . $product->document) }}" target="_blank" class="pdf-download-btn">
+                                    <i class="fas fa-file-pdf"></i>
+                                    <span>Download PDF</span>
+                                </a>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <div class="col-12 text-center">
+                    <p>No products found.</p>
+                </div>
+            @endforelse
+        </div>
+
+        {{-- "View More" button centered --}}
+        <div class="text-center mt-4">
+             <a href="{{ route('websiteCategoryList') }}" class="pdf-download-btn">View More Products</a>
+        </div>
+    </div>
+</section>
+
+{{-- Add this style block at the end of your file or move to your main CSS file --}}
+<style>
+    /* Section Title Styling */
+    .wpo-section-title-s2 {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+    .wpo-section-title-s2 h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #333;
+    }
+
+    /* 1. New Product Card Styling */
+    .product-card {
+        background: #ffffff;
+        border: 1px solid #e9ecef;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+  .product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e31e24;
+}
+    .product-image {
+        height: 220px;
+        overflow: hidden;
+        background-color: #fdfdfd;
+    }
+    .product-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain; /* Use 'contain' to show full product, or 'cover' to fill space */
+        transition: transform 0.4s ease;
+    }
+    .product-card:hover .product-image img {
+        transform: scale(1.08);
+    }
+    .product-content {
+        padding: 20px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1; /* Allows content to fill space */
+    }
+    .product-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #343a40;
+        margin-top: 0;
+        margin-bottom: 15px;
+        flex-grow: 1; /* Pushes the button to the bottom */
+    }
+
+    /* 2. New PDF Download Button Styling */
+    .pdf-download-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px; /* Space between icon and text */
+        padding: 8px 18px;
+        background: linear-gradient(45deg, #0d6efd, #0056b3);
+        color: #fff;
+        border-radius: 50px; /* Pill shape */
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+    }
+    .pdf-download-btn i {
+        font-size: 1.1em; /* Make icon slightly bigger than text */
+    }
+    .pdf-download-btn:hover {
+        background: linear-gradient(45deg, #c82333, #a51825);
+        transform: scale(1.05);
+        color: #fff;
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+    }
+
+    /* General Theme Button for "View More" */
+
+</style>
+
+
+
+
 
     {{-- <section class="why-us">
         <div class="container">
@@ -528,7 +631,7 @@
 
 
 
-    <section class="application">
+    {{-- <section class="application">
         <div class="container">
             <div class="wpo-section-title-s2">
                 <h3>Serve Our sectors</h3>
@@ -659,5 +762,5 @@
 
         </div>
 
-    </section>
+    </section> --}}
 @endsection

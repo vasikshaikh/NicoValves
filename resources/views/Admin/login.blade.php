@@ -8,7 +8,7 @@
     <meta content="Coderthemes" name="author" />
 
     <!-- App favicon -->
-   <link rel="shortcut icon" href="{{ asset('images/valve.png') }}">
+   <link rel="shortcut icon" href="{{ asset('images/logo.png') }}">
 
     <!-- Theme Config Js -->
       <script src="{{ asset('admin_assets/assets/js/config.js') }}"></script>
@@ -67,10 +67,10 @@
                             <!-- Logo-->
                             <div class="auth-brand">
                                 <a href="{{ route('admin') }}" class="logo-light">
-                                    <img src="{{ asset('images/valve_logo_bg.png') }}" alt="logo" height="22">
+                                    <img src="{{ asset('images/logo.png') }}" alt="logo" height="22">
                                 </a>
                                 <a href="{{ route('admin') }}" class="logo-dark">
-                                    <img src="{{ asset('images/valve_logo_bg.png') }}" alt="dark logo" height="22">
+                                    <img src="{{ asset('images/logo.png') }}" alt="dark logo" height="22">
                                 </a>
                             </div>
 

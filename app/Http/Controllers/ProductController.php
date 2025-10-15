@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProductInfo;
-use App\Models\CategoryInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -31,6 +30,48 @@ class ProductController extends Controller
         return view('Product.list_product', compact('product_data'));
     }
 
+    // public function saveProduct(Request $request)
+    // {
+    //     if ($request->category_id == "0") {
+    //         $request->merge(['category_id' => null]);
+    //     }
+
+    //     $request->validate([
+    //         'category_id' => 'nullable|exists:category_infos,id',
+    //         'title' => 'required|string|max:255',
+    //         'description' => 'nullable|string',
+    //         'image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+    //         'document' => 'nullable|file|mimes:pdf|max:5120',
+    //     ]);
+
+    //     $data = $request->only('category_id', 'title', 'description');
+
+    //     if ($request->hasFile('image')) {
+    //         $images = [];
+    //         foreach ($request->file('image') as $img) {
+    //             if ($img) {
+    //                 $filename = time() . '_' . uniqid() . '_' . $img->getClientOriginalName();
+    //                 $img->move(public_path('productImage'), $filename);
+    //                 $images[] = $filename;
+    //             }
+    //         }
+    //         if (!empty($images)) {
+    //             $data['image'] = json_encode($images);
+    //         }
+    //     }
+
+    //     if ($request->hasFile('document')) {
+    //         $doc = $request->file('document');
+    //         $filename = time() . '_' . uniqid() . '_' . $doc->getClientOriginalName();
+    //         $doc->move(public_path('ProductDocument'), $filename);
+    //         $data['document'] = $filename;
+    //     }
+
+    //     ProductInfo::create($data);
+
+    //     return redirect()->route('listProduct')->with('success', 'Product added successfully!');
+    // }
+
     public function saveProduct(Request $request)
     {
         if ($request->category_id == "0") {
@@ -47,11 +88,12 @@ class ProductController extends Controller
 
         $data = $request->only('category_id', 'title', 'description');
 
+        // Images (same as your original approach)
         if ($request->hasFile('image')) {
             $images = [];
             foreach ($request->file('image') as $img) {
-                if ($img) {
-                    $filename = time() . '_' . uniqid() . '_' . $img->getClientOriginalName();
+                if ($img && $img->isValid()) {
+                    $filename = time() . '_' . uniqid() . '_' . preg_replace('/\s+/', '_', $img->getClientOriginalName());
                     $img->move(public_path('productImage'), $filename);
                     $images[] = $filename;
                 }
@@ -61,17 +103,36 @@ class ProductController extends Controller
             }
         }
 
+        // Document named from product title (slug). Ensure uniqueness by adding _1, _2 if needed.
         if ($request->hasFile('document')) {
             $doc = $request->file('document');
-            $filename = time() . '_' . uniqid() . '_' . $doc->getClientOriginalName();
-            $doc->move(public_path('ProductDocument'), $filename);
-            $data['document'] = $filename;
+            if ($doc->isValid()) {
+                $titleSlug = Str::slug($request->input('title') ?? 'product');
+                $ext = $doc->getClientOriginalExtension();
+                $baseName = $titleSlug . '.' . $ext;
+
+                $savePath = public_path('ProductDocument');
+                if (!File::exists($savePath)) {
+                    File::makeDirectory($savePath, 0755, true);
+                }
+
+                $finalName = $baseName;
+                $counter = 1;
+                while (File::exists($savePath . DIRECTORY_SEPARATOR . $finalName)) {
+                    $finalName = $titleSlug . '_' . $counter . '.' . $ext;
+                    $counter++;
+                }
+
+                $doc->move($savePath, $finalName);
+                $data['document'] = $finalName;
+            }
         }
 
         ProductInfo::create($data);
 
         return redirect()->route('listProduct')->with('success', 'Product added successfully!');
     }
+
 
     public function editProduct($id)
     {
@@ -86,11 +147,91 @@ class ProductController extends Controller
         ]);
     }
 
+    // public function updateProduct(Request $request, $id)
+    // {
+    //     $product = ProductInfo::findOrFail($id);
+
+    //     // Handle "0" category selection
+    //     if ($request->category_id == "0") {
+    //         $request->merge(['category_id' => null]);
+    //     }
+
+    //     $request->validate([
+    //         'category_id' => 'nullable|exists:category_infos,id',
+    //         'title' => 'required|string|max:255',
+    //         'description' => 'nullable|string',
+    //         'image.*' => 'nullable|image',
+    //         'document' => 'nullable|file',
+    //     ]);
+
+    //     $data = $request->only('category_id', 'title', 'description');
+
+    //     // Handle image updates
+    //     $currentImages = $product->image ? json_decode($product->image, true) : [];
+
+    //     // Get images to remove from hidden input
+    //     $imagesToRemove = $request->input('remove_images', []);
+
+    //     if (!empty($imagesToRemove)) {
+    //         // Convert to array if it's a string
+    //         if (is_string($imagesToRemove)) {
+    //             $imagesToRemove = explode(',', $imagesToRemove);
+    //         }
+
+    //         // Remove selected images
+    //         foreach ($imagesToRemove as $imageToRemove) {
+    //             if (($key = array_search($imageToRemove, $currentImages)) !== false) {
+    //                 // Delete physical file
+    //                 if (File::exists(public_path('productImage/' . $imageToRemove))) {
+    //                     File::delete(public_path('productImage/' . $imageToRemove));
+    //                 }
+    //                 // Remove from array
+    //                 unset($currentImages[$key]);
+    //             }
+    //         }
+
+    //         // Reindex array after removal
+    //         $currentImages = array_values($currentImages);
+    //     }
+
+    //     // Add new images
+    //     if ($request->hasFile('image')) {
+    //         foreach ($request->file('image') as $newImage) {
+    //             if ($newImage->isValid()) {
+    //                 $filename = time() . '_' . uniqid() . '_' . $newImage->getClientOriginalName();
+    //                 $newImage->move(public_path('productImage'), $filename);
+    //                 $currentImages[] = $filename;
+    //             }
+    //         }
+    //     }
+
+    //     // Update image data
+    //     $data['image'] = !empty($currentImages) ? json_encode($currentImages) : null;
+
+    //     // Handle document update
+    //     if ($request->hasFile('document')) {
+    //         if ($request->file('document')->isValid()) {
+    //             // Delete old document
+    //             if ($product->document && File::exists(public_path('ProductDocument/' . $product->document))) {
+    //                 File::delete(public_path('ProductDocument/' . $product->document));
+    //             }
+
+    //             $document = $request->file('document');
+    //             $filename = time() . '_' . uniqid() . '_' . $document->getClientOriginalName();
+    //             $document->move(public_path('ProductDocument'), $filename);
+    //             $data['document'] = $filename;
+    //         }
+    //     }
+
+    //     $product->update($data);
+
+    //     return redirect()->route('listProduct')->with('success', 'Product updated successfully!');
+    // }
+
     public function updateProduct(Request $request, $id)
     {
         $product = ProductInfo::findOrFail($id);
 
-        // Handle "0" category selection
         if ($request->category_id == "0") {
             $request->merge(['category_id' => null]);
         }
@@ -100,65 +241,92 @@ class ProductController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-            'document' => 'nullable|file|mimes:pdf,doc,docx|max:5120',
+            'document' => 'nullable|file|mimes:pdf|max:5120',
+            'remove_images' => 'nullable|string',
         ]);
 
         $data = $request->only('category_id', 'title', 'description');
 
-        // Handle image updates
+        // Images handling
         $currentImages = $product->image ? json_decode($product->image, true) : [];
 
-        // Get images to remove from hidden input
         $imagesToRemove = $request->input('remove_images', []);
-
         if (!empty($imagesToRemove)) {
-            // Convert to array if it's a string
             if (is_string($imagesToRemove)) {
-                $imagesToRemove = explode(',', $imagesToRemove);
+                $imagesToRemove = array_filter(explode(',', $imagesToRemove));
             }
-
-            // Remove selected images
             foreach ($imagesToRemove as $imageToRemove) {
+                $imageToRemove = trim($imageToRemove);
                 if (($key = array_search($imageToRemove, $currentImages)) !== false) {
-                    // Delete physical file
                     if (File::exists(public_path('productImage/' . $imageToRemove))) {
                         File::delete(public_path('productImage/' . $imageToRemove));
                     }
-                    // Remove from array
                     unset($currentImages[$key]);
                 }
             }
-
-            // Reindex array after removal
             $currentImages = array_values($currentImages);
         }
 
-        // Add new images
         if ($request->hasFile('image')) {
             foreach ($request->file('image') as $newImage) {
-                if ($newImage->isValid()) {
-                    $filename = time() . '_' . uniqid() . '_' . $newImage->getClientOriginalName();
+                if ($newImage && $newImage->isValid()) {
+                    $filename = time() . '_' . uniqid() . '_' . preg_replace('/\s+/', '_', $newImage->getClientOriginalName());
                     $newImage->move(public_path('productImage'), $filename);
                     $currentImages[] = $filename;
                 }
             }
         }
 
-        // Update image data
         $data['image'] = !empty($currentImages) ? json_encode($currentImages) : null;
 
-        // Handle document update
+        // Document handling
+        $savePath = public_path('ProductDocument');
+        if (!File::exists($savePath)) {
+            File::makeDirectory($savePath, 0755, true);
+        }
+
         if ($request->hasFile('document')) {
-            if ($request->file('document')->isValid()) {
-                // Delete old document
-                if ($product->document && File::exists(public_path('ProductDocument/' . $product->document))) {
-                    File::delete(public_path('ProductDocument/' . $product->document));
+            $doc = $request->file('document');
+            if ($doc->isValid()) {
+                // delete old
+                if ($product->document && File::exists($savePath . DIRECTORY_SEPARATOR . $product->document)) {
+                    File::delete($savePath . DIRECTORY_SEPARATOR . $product->document);
                 }
 
-                $document = $request->file('document');
-                $filename = time() . '_' . uniqid() . '_' . $document->getClientOriginalName();
-                $document->move(public_path('ProductDocument'), $filename);
-                $data['document'] = $filename;
+                $titleSlug = Str::slug($request->input('title') ?? $product->title ?? 'product');
+                $ext = $doc->getClientOriginalExtension();
+                $baseName = $titleSlug . '.' . $ext;
+
+                $finalName = $baseName;
+                $counter = 1;
+                while (File::exists($savePath . DIRECTORY_SEPARATOR . $finalName)) {
+                    $finalName = $titleSlug . '_' . $counter . '.' . $ext;
+                    $counter++;
+                }
+
+                $doc->move($savePath, $finalName);
+                $data['document'] = $finalName;
+            }
+        } else {
+            // If title changed and no new document uploaded — rename file to match new title
+            if ($product->document && $request->filled('title') && $request->input('title') !== $product->title) {
+                $oldName = $product->document;
+                $oldFull = $savePath . DIRECTORY_SEPARATOR . $oldName;
+                if (File::exists($oldFull)) {
+                    $ext = pathinfo($oldName, PATHINFO_EXTENSION);
+                    $titleSlug = Str::slug($request->input('title'));
+                    $baseName = $titleSlug . '.' . $ext;
+
+                    $finalName = $baseName;
+                    $counter = 1;
+                    while (File::exists($savePath . DIRECTORY_SEPARATOR . $finalName)) {
+                        $finalName = $titleSlug . '_' . $counter . '.' . $ext;
+                        $counter++;
+                    }
+
+                    File::move($oldFull, $savePath . DIRECTORY_SEPARATOR . $finalName);
+                    $data['document'] = $finalName;
+                }
             }
         }
 
@@ -166,6 +334,7 @@ class ProductController extends Controller
 
         return redirect()->route('listProduct')->with('success', 'Product updated successfully!');
     }
+
 
     public function deleteProduct($id)
     {

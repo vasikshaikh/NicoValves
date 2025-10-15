@@ -8,7 +8,7 @@ html {
 
 :root {
   scroll-behavior: unset;
-  --main-color: #26619d;
+  --main-color: #0e395b;
 }
 
 body {
@@ -163,7 +163,7 @@ img {
 
 /*** back to top **/
 .back-to-top {
-  background-color: rgba(255, 94, 20, 0.7);
+  background-color: #e31e24;
   width: 45px;
   height: 45px;
   line-height: 45px;
@@ -185,7 +185,7 @@ img {
   }
 }
 .back-to-top:hover {
-  background-color: var(--main-color);
+  background-color: #0e395b;
 }
 
 .back-to-top i {
@@ -310,13 +310,13 @@ img {
   width: 100%;
   height: 100%;
   border-radius: 30px;
-  background: #003c95;
+  background: #e31e24;
   transition: opacity 0.5s ease-out;
   opacity: 0;
   z-index: -1;
 }
 .theme-btn:hover, .view-cart-btn:hover, .theme-btn:focus, .view-cart-btn:focus, .theme-btn:active, .view-cart-btn:active {
-  background: #003c95;
+  background: #e31e24;
   color: #fff;
 }
 .theme-btn:hover:after, .view-cart-btn:hover:after {
@@ -592,7 +592,9 @@ img {
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  background-color: white;
+  z-index: -2;
+  box-shadow: inset 0 0 0 1px rgba(255, 8, 8, 0.1);
   margin-left: -60px;
   margin-top: -60px;
 }
@@ -613,7 +615,8 @@ img {
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+
+  box-shadow: inset 0 0 0 1px #e31e24;
 }
 .preloader #particles-background,
 .preloader #particles-foreground {
@@ -1179,7 +1182,7 @@ img {
 .topbar {
   padding: 0 130px;
   position: relative;
-  background: #000B47;
+  background: #e31e24;
   z-index: 1;
 }
 @media (max-width: 1700px) {
@@ -4993,7 +4996,7 @@ img {
 }
 .service-card .image img {
   width: 100%;
- 
+
   object-fit: contain;
   transition: all 0.8s ease-in-out;
 }
@@ -9042,7 +9045,7 @@ section.why-us {
   overflow: hidden;
 }
 .application-box .inner:hover .image img{
-  transform: scale(1.1); 
+  transform: scale(1.1);
   overflow: hidden;
 
 }
@@ -9102,7 +9105,7 @@ section.why-us {
   justify-content: center;
 }
 .main-btn a:hover{
-  background-color: #003c95;
+  background-color: #e31e24;
 transition: all 0.3s ease-in-out  ;
 }
 .contact-footer  {
@@ -9153,7 +9156,7 @@ transition: all 0.3s ease-in-out  ;
 .selogan {
   margin-top: -35px;
   position: relative;
-} 
+}
 .disc-title.row p {
   margin-bottom: 0px;
 }
@@ -9235,7 +9238,7 @@ tr.bg-blue {
 }
 .pt-20{
   padding-top: 20px;
-}                                                                                                   
+}
 .panel-title {
   text-align: center;
   padding: 20px 0px 60px;
@@ -9271,7 +9274,7 @@ tr.bg-blue {
   .panel-title .nav-tabs li{
     margin-bottom: 40px;
   }
-  
+
 }
 @media screen and (max-width: 991px) {
   section.wpo-feature-section-s3 {
@@ -9333,7 +9336,7 @@ tr.bg-blue {
     height: 250px;
   }
   .wpo-hero-slider .slide-title h2 {
-    
+
     font-size: 20px;
     line-height: 22px;
 }
@@ -9360,7 +9363,7 @@ tr.bg-blue {
 }
 .action a {
   display:inline-block;
-  padding:5px 10px; 
+  padding:5px 10px;
   background:#f30;
   color:#fff;
   text-decoration:none;
@@ -9534,10 +9537,10 @@ section.valve-ditails table td {
 #contact:hover { background: #666; }
 #contact:active { background: #444; }
 
-#contactForm { 
+#contactForm {
   display: none;
 
-  border: 6px solid salmon; 
+  border: 6px solid salmon;
   padding: 2em;
   width: 550px;
   text-align: center;
@@ -9548,25 +9551,25 @@ section.valve-ditails table td {
   left:50%;
   transform: translate(-50%,-50%);
   -webkit-transform: translate(-50%,-50%)
-  
+
 }
 #contactForm body{
   background-color: #000;
 }
 
-input, textarea { 
+input, textarea {
   margin: 16px auto 0px;
-  font-family: inherit; 
-  text-transform: inherit; 
+  font-family: inherit;
+  text-transform: inherit;
   font-size: inherit;
-  
-  display: block; 
-  width: 280px; 
+
+  display: block;
+  width: 280px;
   padding: .4em;
 }
 textarea { height: 80px; resize: none; }
 
-.formBtn { 
+.formBtn {
   width: 140px;
   display: inline-block;
   margin-top: 30px;
@@ -9918,7 +9921,11 @@ section.wpo-feature-section-s3 {
   padding: 15px 15px;
   position: absolute;
   width: 55px;
-  background: #2073c6 !important;
+  background: #0e395b ;
+}
+.pogoda-hld .info-btn.call-btn:hover {
+
+  background: #e31e24 !important;
 }
 .list-left {
   color: #000;

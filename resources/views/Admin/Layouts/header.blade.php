@@ -12,7 +12,7 @@
     <meta content="Coderthemes" name="author" />
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ asset('images/valve.png') }}">
+    <link rel="shortcut icon" href="{{ asset('images/logo.png') }}">
 
     <!-- Daterangepicker css -->
     <link rel="stylesheet" href="{{ asset('admin_assets/assets/vendor/daterangepicker/daterangepicker.css') }}">
@@ -86,17 +86,17 @@
                         <!-- Logo light -->
                         <a href="index.html" class="logo-light">
                             <span class="logo-lg">
-                                <img src="{{ asset('images/logo_bg.png') }}" alt="logo">
+                                <img src="{{ asset('images/logo.png') }}" alt="logo">
                             </span>
                             <span class="logo-sm">
-                                <img src="{{ asset('images/logo_bg.png') }}" alt="small logo">
+                                <img src="{{ asset('images/logo.png') }}" alt="small logo">
                             </span>
                         </a>
 
                         <!-- Logo Dark -->
                         <a href="index.html" class="logo-dark">
                             <span class="logo-lg">
-                                <img src="{{ asset('images/logo_bg.png') }}" alt="dark logo">
+                                <img src="{{ asset('images/logo.png') }}" alt="dark logo">
                             </span>
                             <span class="logo-sm">
                                 <img src="{{ asset('images/logo_bg.png') }}" alt="small logo">
@@ -482,20 +482,20 @@
             <!-- Brand Logo Light -->
             <a href="{{ route('admin.dashboard') }}" class="logo logo-light">
                 <span class="logo-lg">
-                    <img src="{{ asset('images/valve_logo_bg.png') }}" alt="logo">
+                    <img src="{{ asset('images/logo.png') }}" alt="logo">
                 </span>
                 <span class="logo-sm">
-                    <img src="{{ asset('imagesvalve_logo_bg.png') }}" alt="small logo">
+                    <img src="{{ asset('images/logo.png') }}" alt="small logo">
                 </span>
             </a>
 
             <!-- Brand Logo Dark -->
             <a href="{{ route('admin.dashboard') }}" class="logo logo-dark">
                 <span class="logo-lg">
-                    <img src="{{ asset('images/valve_logo_bg.png') }}" alt="dark logo">
+                    <img src="{{ asset('images/logo.png') }}" alt="dark logo">
                 </span>
                 <span class="logo-sm">
-                    <img src="{{ asset('images/valve_logo_bg.png') }}" alt="small logo">
+                    <img src="{{ asset('images/logo.png') }}" alt="small logo">
                 </span>
             </a>
 

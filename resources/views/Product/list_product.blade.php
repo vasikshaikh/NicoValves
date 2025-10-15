@@ -19,19 +19,17 @@
                 </div>
             @endif
 
-            
-                <div class="row">
-                    <div class="col-12">
-                        <div class="bg-flower">
-                            <img src="{{ asset('images/valve_1.png') }}" alt="Flower Image 3">
-                        </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="bg-flower">
+                        <img src="{{ asset('images/valve_1.png') }}" alt="Flower Image 3">
+                    </div>
 
-                        <div class="bg-flower-2">
-                            <img src="{{ asset('images/valve_2.png') }}" alt="Flower Image 1">
-                        </div>
-
+                    <div class="bg-flower-2">
+                        <img src="{{ asset('images/valve_2.png') }}" alt="Flower Image 1">
                     </div>
                 </div>
+            </div>
 
             <div class="card mt-3">
                 <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
@@ -86,14 +84,12 @@
                                         <td style="vertical-align: middle;">{{ $product_data->firstItem() + $index }}</td>
                                         <td style="vertical-align: middle;">{{ $product->category?->name ?? 'N/A' }}</td>
                                         <td style="vertical-align: middle;">{{ $product->title }}</td>
-
-                                        {{-- Description with See More / See Less --}}
                                         <td style="max-width:420px; word-break:break-word; vertical-align: middle; text-align:left;">
                                             @php
                                                 $descText = strip_tags($product->description ?? '');
                                                 $descText = trim($descText);
                                                 $descWords = $descText === '' ? [] : preg_split('/\s+/', $descText);
-                                                $previewCount = 20; // show 20 words
+                                                $previewCount = 20;
                                                 $shortDesc = implode(' ', array_slice($descWords, 0, $previewCount));
                                                 $fullDesc = $descText;
                                             @endphp
@@ -101,7 +97,7 @@
                                             @if(count($descWords) > $previewCount)
                                                 <span class="short-text">{{ $shortDesc }}&hellip;</span>
                                                 <span class="full-text d-none">{!! nl2br(e($fullDesc)) !!}</span>
-                                                <a href="javascript:void(0);" class="toggle-text" style="color:black; cursor:pointer; font-weight:500; text-decoration:underline;">See More</a>
+                                                <a href="javascript:void(0);" class="toggle-text">See More</a>
                                             @else
                                                 {!! nl2br(e($fullDesc)) !!}
                                             @endif
@@ -118,13 +114,14 @@
                                         </td>
                                         <td style="vertical-align: middle;">
                                             @if($product->document)
-                                                <a href="{{ asset('ProductDocument/' . $product->document) }}" target="_blank">View PDF</a>
+                                                <a href="{{ asset('ProductDocument/' . $product->document) }}" target="_blank">
+                                                <i class="fas fa-external-link-alt" style="color: red; margin-right: 5px;"></i>
+                                                </a>
                                             @else
                                                 N/A
                                             @endif
                                         </td>
 
-                                        <!-- Actions: fixed width so buttons won't shift -->
                                         <td style="white-space: nowrap; vertical-align: middle; width:160px;">
                                             <div style="display:flex; gap:6px; justify-content:center; align-items:center;">
                                                 <button class="btn btn-sm btn-primary action-btn" style="min-width:72px;" data-bs-toggle="modal"
@@ -143,7 +140,6 @@
                         </table>
                     </div>
 
-                    <!-- Pagination + showing X to Y of Z -->
                     <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3 gap-2">
                         <div class="text-muted">
                             @if ($product_data->total() > 0)
@@ -179,7 +175,6 @@
                 @csrf
                 <input type="hidden" name="product_id" id="product_id">
                 <input type="hidden" name="category_id" id="category_id" value="0">
-                <!-- Hidden field for removed images -->
                 <input type="hidden" name="remove_images" id="remove_images" value="">
 
                 <div class="modal-header">
@@ -189,41 +184,33 @@
 
                 <div class="modal-body">
 
-                    <!-- Category search -->
                     <div class="mb-3 position-relative">
                         <label class="form-label">Search Category</label>
                         <input type="text" id="category_search" class="form-control" placeholder="Type category name...">
                         <div id="category_list" class="border rounded position-absolute w-100" style="max-height:180px; overflow-y:auto; z-index:1000;"></div>
                     </div>
 
-                    <!-- Title -->
                     <div class="mb-3">
                         <label class="form-label">Title</label>
                         <input type="text" name="title" id="title" class="form-control" required>
                     </div>
 
-                    <!-- Description with Summernote -->
                     <div class="mb-3">
                         <label class="form-label">Description</label>
                         <textarea name="description" id="description" class="form-control"></textarea>
                     </div>
 
-                    <!-- Product Images -->
                     <div class="mb-3">
                         <label class="form-label">Product Images (Max 5)</label>
-                        <div id="image_wrapper" class="d-flex flex-wrap gap-2">
-                            <!-- New image upload fields will be added here -->
-                        </div>
+                        <div id="image_wrapper" class="d-flex flex-wrap gap-2"></div>
                         <button type="button" id="addImageBtn" class="btn btn-sm btn-secondary mt-2">Add New Image</button>
 
-                        <!-- Current Images with Remove Option -->
                         <div id="current_images" class="mt-3">
                             <label class="form-label text-muted">Current Images (Click × to remove)</label>
                             <div id="current_images_container" class="d-flex flex-wrap gap-2"></div>
                         </div>
                     </div>
 
-                    <!-- PDF Document -->
                     <div class="mb-3">
                         <label class="form-label">Product Document (PDF)</label>
                         <input type="file" name="document" id="document" class="form-control">
@@ -241,67 +228,50 @@
     </div>
 </div>
 
-<!-- Inline style for toggle link (user requested inline CSS) -->
 <style>
-.toggle-text {
-    color: black;
-    cursor: pointer;
-    font-weight: 500;
-    text-decoration: underline;
-}
-.current-image-item {
-    position: relative;
-    display: inline-block;
-    margin: 5px;
-}
-.remove-current-image {
-    position: absolute;
-    top: -8px;
-    right: -8px;
-    background: #dc3545;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    font-size: 14px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+.toggle-text { color: black; cursor: pointer; font-weight: 500; text-decoration: underline; }
+.current-image-item { position: relative; display: inline-block; margin: 5px; }
+.remove-current-image { position: absolute; top: -8px; right: -8px; background: #dc3545; color: white; border: none; border-radius: 50%; width: 24px; height: 24px; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 </style>
 
-<!-- Summernote CSS & JS -->
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote.min.js"></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Summernote init
     $('#description').summernote({
         placeholder: 'Enter product description here...',
-        tabsize: 2,
-        height: 150,
+        tabsize: 2, height: 150,
         toolbar: [
           ['style', ['bold', 'italic', 'underline', 'clear']],
           ['font', ['strikethrough', 'superscript', 'subscript']],
-          ['fontsize', ['fontsize']],
-          ['color', ['color']],
+          ['fontsize', ['fontsize']], ['color', ['color']],
           ['para', ['ul', 'ol', 'paragraph']],
           ['insert', ['link', 'picture', 'video']],
           ['view', ['fullscreen', 'codeview', 'help']]
         ]
     });
 
-    // Modal show logic (Add/Edit)
     var productModal = document.getElementById('productModal');
     var productForm = document.getElementById('productForm');
     var imageWrapper = document.getElementById('image_wrapper');
     var removeImagesInput = document.getElementById('remove_images');
     var currentImagesContainer = document.getElementById('current_images_container');
 
-    productModal.addEventListener('show.bs.modal', function(event){
+    // Clean modal when hidden
+    productModal.addEventListener('hidden.bs.modal', function () {
+        productForm.reset();
+        $('#description').summernote('code', '');
+        removeImagesInput.value = '';
+        document.getElementById('product_id').value = '';
+        document.getElementById('category_id').value = 0;
+        document.getElementById('current_images_container').innerHTML = '';
+        document.getElementById('current_document').innerHTML = '';
+        document.getElementById('image_wrapper').innerHTML = '';
+    });
+
+    // show.bs.modal handler (robust)
+    productModal.addEventListener('show.bs.modal', function(event) {
         var button = event.relatedTarget;
         var mode = button.getAttribute('data-mode');
 
@@ -313,50 +283,49 @@ document.addEventListener('DOMContentLoaded', function() {
         var currentImagesDiv = productModal.querySelector('#current_images');
         var currentDocDiv = productModal.querySelector('#current_document');
 
-        // Reset everything
-        titleInput.value = '';
-        productIdInput.value = '';
-        catIdInput.value = 0;
+        // Reset fields
+        productForm.reset();
+        $('#description').summernote('code', '');
         removeImagesInput.value = '';
         currentImagesContainer.innerHTML = '';
         imageWrapper.innerHTML = '';
-        $('#description').summernote('code', '');
+        currentDocDiv.innerHTML = '';
+        catIdInput.value = 0;
+        productIdInput.value = '';
 
-        // Show/hide current images section based on mode
+        currentImagesDiv.style.display = 'none';
+        currentDocDiv.style.display = 'none';
+
         if(mode === 'add') {
-            currentImagesDiv.style.display = 'none';
-        } else {
-            currentImagesDiv.style.display = 'block';
-        }
-
-        if(mode === 'add'){
             modalTitle.textContent = 'Add Product';
             submitBtn.textContent = 'Add Product';
             productForm.action = "{{ route('saveProduct') }}";
-
-            // Add one empty image field for add mode
             addNewImageField();
-        } else if(mode === 'edit'){
+        } else if(mode === 'edit') {
             modalTitle.textContent = 'Edit Product';
             submitBtn.textContent = 'Update Product';
             var productId = button.getAttribute('data-id');
             productIdInput.value = productId;
             productForm.action = "{{ route('updateProduct', ['id' => ':id']) }}".replace(':id', productId);
 
-            // Fetch product data
+            currentImagesDiv.style.display = 'block';
+            currentDocDiv.style.display = 'block';
+            currentImagesContainer.innerHTML = '<div class="p-2">Loading...</div>';
+            currentDocDiv.innerHTML = '<div class="p-2">Loading...</div>';
+
             fetch("{{ route('editProduct', ['id' => ':id']) }}".replace(':id', productId))
                 .then(res => res.json())
                 .then(data => {
                     var product = data.product ?? data;
-                    titleInput.value = product.title;
+                    titleInput.value = product.title || '';
                     catIdInput.value = product.category_id || 0;
                     $('#description').summernote('code', product.description || '');
 
-                    // Display current images with remove buttons
+                    // images
+                    currentImagesContainer.innerHTML = '';
                     if(product.image){
                         try {
                             const images = JSON.parse(product.image);
-                            currentImagesContainer.innerHTML = '';
                             images.forEach(img => {
                                 const imageItem = document.createElement('div');
                                 imageItem.className = 'current-image-item';
@@ -367,40 +336,51 @@ document.addEventListener('DOMContentLoaded', function() {
                                 currentImagesContainer.appendChild(imageItem);
                             });
 
-                            // Add event listeners to remove buttons
-                            document.querySelectorAll('.remove-current-image').forEach(btn => {
+                            currentImagesContainer.querySelectorAll('.remove-current-image').forEach(btn => {
                                 btn.addEventListener('click', function() {
                                     const imageName = this.getAttribute('data-image');
-                                    // Add to remove_images hidden field
                                     let removedImages = removeImagesInput.value ? removeImagesInput.value.split(',') : [];
                                     if (!removedImages.includes(imageName)) {
                                         removedImages.push(imageName);
                                         removeImagesInput.value = removedImages.join(',');
                                     }
-                                    // Remove from display
                                     this.parentElement.remove();
                                 });
                             });
+
+                            if (currentImagesContainer.children.length === 0) {
+                                currentImagesDiv.style.display = 'none';
+                            } else {
+                                currentImagesDiv.style.display = 'block';
+                            }
                         } catch(e) {
-                            console.error('Error parsing images:', e);
+                            currentImagesContainer.innerHTML = '<div class="text-danger">Error loading images</div>';
                         }
+                    } else {
+                        currentImagesContainer.innerHTML = '<div class="text-muted">No images</div>';
                     }
 
-                    // Current document
+                    // document
                     if(product.document){
                         currentDocDiv.innerHTML = `
                             <div class="alert alert-info p-2">
                                 <i class="fas fa-file-pdf"></i>
                                 <a href='{{ asset('ProductDocument') }}/${product.document}' target='_blank'>${product.document}</a>
                             </div>`;
+                        currentDocDiv.style.display = 'block';
+                    } else {
+                        currentDocDiv.innerHTML = '<div class="text-muted">No document</div>';
+                        currentDocDiv.style.display = 'block';
                     }
-                }).catch(err => {
-                    console.error('Error fetching product:', err);
+                })
+                .catch(err => {
+                    currentImagesContainer.innerHTML = '<div class="text-danger">Failed to load</div>';
+                    currentDocDiv.innerHTML = '<div class="text-danger">Failed to load</div>';
+                    console.error(err);
                 });
         }
     });
 
-    // Add new image field function
     function addNewImageField() {
         if(imageWrapper.querySelectorAll('input[name="image[]"]').length >= 5){
             alert('You can upload max 5 images.');
@@ -414,13 +394,11 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
         imageWrapper.appendChild(div);
 
-        // Add remove event
         div.querySelector('.remove-image-btn').addEventListener('click', function(){
             div.remove();
         });
     }
 
-    // Category autocomplete
     const catSearch = document.getElementById('category_search');
     const catList = document.getElementById('category_list');
     const catIdInput = document.getElementById('category_id');
@@ -451,7 +429,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }).catch(()=>{ catList.innerHTML = ''; });
         });
 
-        // Click outside to close suggestion list
         document.addEventListener('click', function(e){
             if(!catSearch.contains(e.target) && !catList.contains(e.target)){
                 catList.innerHTML = '';
@@ -459,11 +436,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Dynamic add new images
     const addBtn = document.getElementById('addImageBtn');
     addBtn.addEventListener('click', addNewImageField);
 
-    // Live search for list (debounce)
     const searchInput = document.getElementById('liveSearchInput');
     let debounceTimer = null;
     if(searchInput){
@@ -475,7 +450,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // See More / See Less toggle
     function initToggleLinks(){
         document.querySelectorAll('.toggle-text').forEach(function(link){
             link.removeEventListener('click', toggleHandler);
@@ -500,7 +474,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     initToggleLinks();
 
-    // Auto-dismiss alerts after 3s
     ['successAlert','errorAlert'].forEach(function(id){
         const el = document.getElementById(id);
         if(el) setTimeout(() => {

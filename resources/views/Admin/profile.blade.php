@@ -43,18 +43,19 @@
                     </div>
                 @endif
 
-                <div class="row">
-                    <div class="col-12">
-                        <div class="bg-flower">
-                            <img src="{{ asset('admin_assets/assets/images/flowers/img-3.png') }}" alt="Flower Image 3">
-                        </div>
 
-                        <div class="bg-flower-2">
-                            <img src="{{ asset('admin_assets/assets/images/flowers/img-1.png') }}" alt="Flower Image 1">
-                        </div>
 
+                  <div class="row">
+                <div class="col-12">
+                    <div class="bg-flower">
+                        <img src="{{ asset('images/valve_1.png') }}" alt="Flower Image 3">
+                    </div>
+
+                    <div class="bg-flower-2">
+                        <img src="{{ asset('images/valve_2.png') }}" alt="Flower Image 1">
                     </div>
                 </div>
+            </div>
                 <div class="container-fluid">
 
                     <div class="row">

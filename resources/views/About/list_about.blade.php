@@ -211,9 +211,22 @@
                             <div class="mb-3">
                                 <label class="form-label">About Image (optional)</label>
                                 <input type="file" name="image" id="about_image" class="form-control">
+
                                 <div class="mt-2">
-                                    <img id="current_image" src="" width="140" class="d-none"
-                                        alt="Current Image">
+                                    <!-- New image UI: wrapper with top-right cross and undo notice -->
+                                    <div class="current-image-wrapper position-relative d-none" style="display:inline-block;">
+                                        <img id="current_image" src="" width="140" style="border-radius:6px; display:block;" alt="Current Image">
+                                        <button type="button" id="removeCurrentImageBtn" class="btn btn-sm btn-danger position-absolute"
+                                            style="top:4px; right:4px; line-height:1; padding:4px 6px; border-radius:50%;">&times;</button>
+                                    </div>
+
+                                    <div id="imageRemovedNotice" class="d-none mt-2">
+                                        <span class="text-danger">Image marked for removal.</span>
+                                        <button type="button" id="undoRemoveImageBtn" class="btn btn-sm btn-link">Undo</button>
+                                    </div>
+
+                                    <!-- hidden input to notify server to remove old image when submitted -->
+                                    <input type="hidden" name="remove_image" id="remove_image_input" value="">
                                 </div>
                             </div>
                         </div>
@@ -230,6 +243,12 @@
         <!-- Summernote -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.css" rel="stylesheet">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.js"></script>
+
+        <style>
+            /* small style to ensure position-absolute works inside wrapper */
+            .current-image-wrapper { position: relative; }
+            .current-image-wrapper #removeCurrentImageBtn { border: none; }
+        </style>
 
         <script>
             document.addEventListener('DOMContentLoaded', function() {
@@ -253,38 +272,101 @@
                     var currentImage = aboutModal.querySelector('#current_image');
                     var aboutImageInput = aboutModal.querySelector('#about_image');
 
-                    // Reset
+                    // Reset base UI
                     titleInput.value = '';
                     aboutIdInput.value = '';
-                    currentImage.src = '';
-                    currentImage.classList.add('d-none');
                     aboutImageInput.value = '';
                     $('#about_description').summernote('code', '');
+
+                    // Reset image remove UI
+                    const removeInput = document.getElementById('remove_image_input');
+                    if (removeInput) removeInput.value = '';
+                    const wrapper = document.querySelector('.current-image-wrapper');
+                    if (wrapper) wrapper.classList.add('d-none');
+                    const removedNotice = document.getElementById('imageRemovedNotice');
+                    if (removedNotice) removedNotice.classList.add('d-none');
 
                     if (mode === 'add') {
                         modalTitle.textContent = 'Add About';
                         submitBtn.textContent = 'Add About';
                         aboutForm.action = "{{ route('saveAbout') }}";
+                        // ensure image placeholder cleared
+                        if (currentImage) {
+                            currentImage.src = '';
+                        }
                     } else if (mode === 'edit') {
                         modalTitle.textContent = 'Edit About';
                         submitBtn.textContent = 'Update About';
                         var aboutId = button.getAttribute('data-id');
                         aboutIdInput.value = aboutId;
                         titleInput.value = button.getAttribute('data-title');
-                        aboutForm.action = "{{ route('updateAbout', ['id' => ':id']) }}".replace(':id',
-                            aboutId);
+                        aboutForm.action = "{{ route('updateAbout', ['id' => ':id']) }}".replace(':id', aboutId);
 
                         fetch("{{ route('editAbout', ['id' => ':id']) }}".replace(':id', aboutId))
-                            .then(res => res.json())
+                            .then(res => {
+                                if(!res.ok) throw new Error('Network response was not ok');
+                                return res.json();
+                            })
                             .then(data => {
+                                // populate description and image UI
                                 $('#about_description').summernote('code', data.description || '');
+
+                                // Handle image: show wrapper if image exists, clear remove flag
                                 if (data.image) {
-                                    currentImage.src = "{{ asset('AboutImage') }}/" + data.image;
-                                    currentImage.classList.remove('d-none');
+                                    if (currentImage) currentImage.src = "{{ asset('AboutImage') }}/" + data.image;
+                                    const wrapper = document.querySelector('.current-image-wrapper');
+                                    if (wrapper) wrapper.classList.remove('d-none');
+                                    const removedNotice = document.getElementById('imageRemovedNotice');
+                                    if (removedNotice) removedNotice.classList.add('d-none');
+                                    const removeInput = document.getElementById('remove_image_input');
+                                    if (removeInput) removeInput.value = '';
+                                } else {
+                                    // no image on record
+                                    const wrapper = document.querySelector('.current-image-wrapper');
+                                    if (wrapper) wrapper.classList.add('d-none');
+                                    const removedNotice = document.getElementById('imageRemovedNotice');
+                                    if (removedNotice) removedNotice.classList.remove('d-none');
+                                    const removeInput = document.getElementById('remove_image_input');
+                                    if (removeInput) removeInput.value = '1';
                                 }
                             }).catch(() => {});
                     }
                 });
+
+                // Image remove / undo handlers for About modal
+                (function() {
+                    const removeBtn = document.getElementById('removeCurrentImageBtn');
+                    const undoBtn = document.getElementById('undoRemoveImageBtn');
+                    const currentImageWrapper = document.querySelector('.current-image-wrapper');
+                    const imageRemovedNotice = document.getElementById('imageRemovedNotice');
+                    const removeImageInput = document.getElementById('remove_image_input');
+
+                    function markImageRemoved() {
+                        if (currentImageWrapper) currentImageWrapper.classList.add('d-none');
+                        if (imageRemovedNotice) imageRemovedNotice.classList.remove('d-none');
+                        if (removeImageInput) removeImageInput.value = '1';
+                    }
+
+                    function undoImageRemove() {
+                        if (currentImageWrapper) currentImageWrapper.classList.remove('d-none');
+                        if (imageRemovedNotice) imageRemovedNotice.classList.add('d-none');
+                        if (removeImageInput) removeImageInput.value = '';
+                    }
+
+                    if (removeBtn) {
+                        removeBtn.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            markImageRemoved();
+                        });
+                    }
+
+                    if (undoBtn) {
+                        undoBtn.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            undoImageRemove();
+                        });
+                    }
+                })();
 
                 // See More / See Less toggle
                 document.querySelectorAll('.toggle-text').forEach(function(link) {
