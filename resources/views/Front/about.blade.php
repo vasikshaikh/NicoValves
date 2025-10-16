@@ -9,7 +9,12 @@
         </div>
     </div>
 </section>
-
+<style>
+    a{
+    color: #0e395b;
+    text-decoration: underline;
+}
+</style>
 <section class="about-us">
     <div class="container">
         @foreach ($about_us_data as $section)

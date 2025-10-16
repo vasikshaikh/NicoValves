@@ -195,14 +195,15 @@
                             </div>
                             <div class="col-lg-2 col-md-6 col-6">
                                 <div class="navbar-header">
-                                    <a class="navbar-brand" href="index-2.html"><img
-                                            src="front_assets/assets/images/logo.png" alt="logo"></a>
+                              <a class="navbar-brand" href="{{ route('homeWebsite') }}">
+                                        <img src="{{ asset('images/logo.png') }}" alt="logo">
+                                    </a>
                                 </div>
                             </div>
                             <div class="col-lg-10 col-md-1 col-1">
                                 <div id="navbar" class="collapse navbar-collapse navigation-holder">
                                     <button class="menu-close"><i class="ti-close"></i></button>
-                                    <ul class="nav navbar-nav mb-2 mb-lg-0">
+                                    {{-- <ul class="nav navbar-nav mb-2 mb-lg-0">
                                         <li>
                                             <a class="active" href="index-2.html">Home</a>
 
@@ -242,8 +243,56 @@
                                                 <a class="theme-btn" href="contact-us.html">Get In Touch</a>
                                             </div>
                                         </div>
-                                    </ul>
+                                    </ul> --}}
+       <ul class="nav navbar-nav mb-2 mb-lg-0">
+                                        <li>
+                                            <a class="active" href="{{ route('homeWebsite') }}">Home</a>
+                                        </li>
+                                        <li class="menu-item-has-children">
+                                            <a href="{{ route('aboutWebsite') }}">About Us</a>
+                                            <ul class="sub-menu">
+                                                @foreach ($about_us_data as $section)
+                                                    <li>
+                                                        <a href="{{ route('aboutWebsiteById', $section->id) }}">
+                                                            {{ $section->title }}
+                                                        </a>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </li>
 
+
+                                        <li>
+                                            <a href="{{ route('websiteCategoryList') }}">Products</a>
+
+                                        </li>
+
+                                        <li class="menu-item-has-children">
+                                            <a href="{{ route('qualityWebsite') }}">Mfg.Process</a>
+                                            <ul class="sub-menu">
+                                                <li><a href="{{ route('qualityWebsite') }}">Quality</a></li>
+                                            </ul>
+                                        </li>
+
+
+                                        {{-- <li>
+                                            <a href="engineering-data.html">Engineering Data</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="media.html">Media</a>
+
+                                        </li> --}}
+
+                                        <li><a href="{{ route('contactWebsite') }}">Contact Us</a></li>
+
+                                        <div class="header-right">
+                                            <div class="close-form">
+                                                <a class="theme-btn" href="{{ route('contactWebsite') }}">Get In
+                                                    Touch</a>
+                                            </div>
+                                        </div>
+                                    </ul>
                                 </div><!-- end of nav-collapse -->
                             </div>
                             <!-- <div class="col-lg-2 col-md-2 col-2">

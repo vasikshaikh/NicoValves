@@ -1433,7 +1433,7 @@ img {
 .wpo-site-header #navbar > ul li a:hover,
 .wpo-site-header #navbar > ul li a:focus {
   text-decoration: none;
-  color: var(--main-color);
+  color: #e31e24 !important;
 }
 
 @media screen and (min-width: 992px) {
@@ -9143,7 +9143,7 @@ transition: all 0.3s ease-in-out  ;
 }
 .selogan .title {
   text-align: center;
-  background: linear-gradient(90deg, rgba(38,97,157,3) 49%, rgba(38,97,157,0.6671043417366946) 100%);
+  background: var(--main-color);
   padding: 20px;
 }
 

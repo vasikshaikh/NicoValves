@@ -24,7 +24,8 @@ class FrontController extends Controller
         $slider_data = SliderInfo::latest()->get();
         $about_data = AboutInfo::latest()->first();
         $goal_data = GoalInfo::latest()->get();
-        $product_data = ProductInfo::latest()->take(4)->get();
+        // $product_data = ProductInfo::latest()->get();
+        $product_data = ProductInfo::latest()->take(5)->get();
         $choose_data = ChooseInfo::all();
         $achievement_data = AchievementInfo::all();
         $about_us_data = AboutUsInfo::all();

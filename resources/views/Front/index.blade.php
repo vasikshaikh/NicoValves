@@ -149,263 +149,816 @@
         </div>
     </section> --}}
 
-<!-- AOS CSS -->
-<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    {{-- START: About + Why ALTRIX Valves (About: description | image ; stable hover flip + click/tap + keyboard) --}}
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 
-<!-- AOS JS -->
-<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-<script>
-  AOS.init({
-    duration: 1000, // animation duration
-    once: true,     // animation only once
-    easing: 'ease-in-out',
-  });
-</script>
+    @php
+        $aboutImageName = $about_data->image ?? null;
+        $aboutImageFullPath = $aboutImageName ? public_path('AboutImage/' . $aboutImageName) : null;
+        $hasAboutImage = $aboutImageFullPath && file_exists($aboutImageFullPath);
+    @endphp
 
-<section class="wpo-about-section-s3 section-padding" style="padding: 80px 0; background: #f9fafc;">
-    <div class="container">
-        <div class="row align-items-center">
+    <section class="about-why-section"
+        style="padding:60px 0; background:#fff; font-family:Arial, sans-serif; position:relative; overflow:hidden;">
+        <div class="container" style="position:relative; z-index:1;">
+            <div class="row-two" data-aos="fade-up">
 
-            <!-- Left Side: About Company -->
-            <div class="col-lg-6 col-12" data-aos="fade-right">
-                <div class="content">
-                    <div class="text">
-                        <h2 style="font-size: 32px; font-weight: 700; color: #222; margin-bottom: 10px;">About Company</h2>
-                        <h3 style="font-size: 24px; font-weight: 600; color: #003c95; margin-bottom: 20px;">
-                            {{ $about_data->title }}
-                        </h3>
-
-                        <p style="color: #555; line-height: 1.8; font-size: 16px;">
-                            {!! $about_data->description !!}
-                        </p>
-
-                        <div class="icon" style="margin-top: 25px; overflow: hidden; border-radius: 10px;">
-                            <img src="{{ asset('AboutImage/' . $about_data->image) }}" alt=""
-                                 style="width: 100%; max-width: 450px; object-fit: cover; transition: transform 0.5s;"
-                                 class="about-img">
-                        </div>
-                    </div>
-
-                    <div class="about-btn" style="margin-top: 25px;">
-                        <a href="{{ route('aboutWebsite') }}"
-                           style="display: inline-block; background: #003c95; color: #fff; padding: 12px 25px; border-radius: 8px;
-                                  text-decoration: none; font-weight: 600; transition: all 0.3s;"
-                           class="btn-hover">
-                            About Us
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Right Side: Why NECON Valves -->
-            <div class="col-lg-6 col-12" style="margin-top: 30px;">
-                <div class="about-title" data-aos="fade-left" style="margin-bottom: 30px;">
-                    <h3 style="font-size: 26px; font-weight: 700; color: #222;">Why NECON Valves?</h3>
-                </div>
-
-                <div class="row">
-                    @foreach ($goal_data as $goal)
-                        <div class="col-md-6 about-box" style="margin-bottom: 25px;" data-aos="zoom-in" data-aos-delay="{{ $loop->index * 200 }}">
-                            <div class="inner"
-                                 style="background: #fff; padding: 25px; border-radius: 10px; box-shadow: 0 3px 8px rgba(0,0,0,0.05);
-                                        text-align: center; transition: transform 0.5s, box-shadow 0.5s;">
-                                <div class="icon" style="margin-bottom: 15px;">
-                                    <img src="{{ asset('GoalImage/' . $goal->image) }}" alt=""
-                                         style="width: 70px; height: 70px; object-fit: contain; transition: transform 0.5s;"
-                                         class="goal-img">
-                                </div>
-                                <h4 style="font-size: 18px; font-weight: 600; color: #003c95; margin-bottom: 10px;">
-                                    {{ $goal->title }}
-                                </h4>
-                                <p style="font-size: 15px; color: #555; line-height: 1.6;">
-                                    {{ $goal->description }}
-                                </p>
+                <!-- LEFT: About Us -->
+                <div class="col-left" data-aos="slide-right">
+                    <div class="about-card">
+                        <!-- Heading -->
+                        <div class="about-header-row"
+                            style="display:flex; align-items:center; justify-content:center; gap:12px;">
+                            <div class="about-title-wrap" style="flex:1; text-align:center;">
+                                <h2 class="about-heading" style="margin:0;">
+                                    <span class="accent-red">About</span><span class="accent-blue"> Us</span>
+                                </h2>
                             </div>
                         </div>
-                    @endforeach
+
+                        <!-- description | image -->
+                        <div class="about-content-row"
+                            style="
+              display:flex;
+              align-items:center;
+              justify-content:space-between;
+              gap:20px;
+              margin-top:18px;
+              flex-wrap:wrap;
+          ">
+                            <!-- Description (left) -->
+                            <div class="about-text-wrap" style="flex:1 1 420px; min-width:220px;">
+                                <div class="about-text"
+                                    style="text-align:left; color:#555; line-height:1.7; font-size:15.5px;">
+                                    {!! $about_data->description !!}
+                                </div>
+
+                                <!-- Discover button -->
+                                <div style="margin-top:18px;">
+                                    <a href="{{ route('aboutWebsite') }}" class="btn-discover"
+                                        style="display:inline-block; background:linear-gradient(45deg,#ff0000,#003c95); color:#fff; padding:10px 22px; border-radius:8px; text-decoration:none; font-weight:600; box-shadow:0 10px 20px rgba(0,0,0,0.08);">
+                                        Discover Now
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Image (right) -->
+                            <div class="about-side-image-wrap" style="flex:0 0 320px; min-width:180px;">
+                                @if ($hasAboutImage)
+                                    <img src="{{ asset('AboutImage/' . $aboutImageName) }}" alt="About image"
+                                        style="width:100%%; height:240px; object-fit:cover; border-radius:10px;">
+                                @else
+                                    <!-- Placeholder if no image provided -->
+                                    <div
+                                        style="width:100%; height:240px; display:flex; align-items:center; justify-content:center; border-radius:10px; background:#f3f6fb; color:#7a8aa3; box-shadow:0 12px 30px rgba(0,0,0,0.04);">
+                                        <svg width="56" height="56" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <rect width="24" height="24" rx="4" fill="#eef2ff"></rect>
+                                            <path d="M7 14l3-4 4 5 3-4 2 5H7z" stroke="#003c95" stroke-width="1.2"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
+
+                <!-- RIGHT: Why ALTRIX Valves? -->
+                <div class="col-right" data-aos="slide-left">
+                    <h3 class="section-title-right"
+                        style="text-align:center; font-size:34px; font-weight:800; margin:0 0 18px;">
+                        <span class="accent-blue">Why</span><span class="accent-red"> ALTRIX</span><span
+                            class="accent-blue"> Valves?</span>
+                    </h3>
+
+                    <div class="cards-grid"
+                        style="display:grid; grid-template-columns: repeat(2, 1fr); gap:18px; align-items:stretch;">
+                        @foreach ($goal_data as $goal)
+                            @php
+                                $goalImg = $goal->image ?? null;
+                                $goalImgFull = $goalImg ? public_path('GoalImage/' . $goalImg) : null;
+                                $hasGoalImg = $goalImgFull && file_exists($goalImgFull);
+                                $short = \Illuminate\Support\Str::limit(strip_tags($goal->description ?? ''), 120);
+                            @endphp
+
+                            <div class="card-link" title="{{ $goal->title }}">
+                                <div class="flip-card" tabindex="0" role="button" aria-pressed="false">
+                                    <div class="flip-card-inner">
+                                        <!-- FRONT -->
+                                        <div class="flip-card-front">
+                                            <div class="card-top" style="display:flex; gap:12px; align-items:center;">
+                                                <div class="card-icon" style="width:56px; height:56px;">
+                                                    @if ($hasGoalImg)
+                                                        <img src="{{ asset('GoalImage/' . $goalImg) }}"
+                                                            alt="{{ $goal->title }}"
+                                                            style="width:56px; height:56px; object-fit:cover; border-radius:8px; box-shadow:0 8px 18px rgba(0,0,0,0.06);">
+                                                    @else
+                                                        <svg width="56" height="56" viewBox="0 0 24 24"
+                                                            fill="none" xmlns="http://www.w3.org/2000/svg"
+                                                            style="border-radius:8px;background:#fff;">
+                                                            <rect width="24" height="24" rx="4"
+                                                                fill="#eef2ff"></rect>
+                                                            <path d="M12 7v6l4 2" stroke="#003c95" stroke-width="1.4"
+                                                                stroke-linecap="round" stroke-linejoin="round" />
+                                                        </svg>
+                                                    @endif
+                                                </div>
+                                                <h4 class="card-title"
+                                                    style="color:#ff0000; font-weight:700; margin:0; font-size:16px;">
+                                                    {{ $goal->title }}</h4>
+                                            </div>
+                                            <p class="card-desc" style="color:#666; font-size:14px; margin:10px 0;">
+                                                {{ $short }}</p>
+                                            <div class="card-foot" style="text-align:right;">
+                                                <span class="card-cta" style="color:#003c95; font-weight:700;">Read</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- BACK -->
+                                        <div class="flip-card-back">
+                                            <h4 class="back-title"
+                                                style="color:#003c95; font-weight:700; margin:0 0 8px;">{{ $goal->title }}
+                                            </h4>
+                                            <p class="back-desc" style="color:#333; font-size:14px;">
+                                                {!! nl2br(e($goal->description)) !!}</p>
+                                            <div class="back-foot" style="text-align:right;">
+                                                <span class="back-cta" style="color:#003c95; font-weight:700;">Learn more
+                                                    →</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+
             </div>
-
         </div>
-    </div>
 
-    <style>
-        /* Hover effect for About image */
-        .about-img:hover {
-            transform: scale(1.05);
-        }
+        <style>
+            /* Colors */
+            .accent-red {
+                color: #ff0000;
+            }
 
-        /* Hover effect for goal images */
-        .goal-img:hover {
-            transform: scale(1.1);
-        }
+            .accent-blue {
+                color: #003c95;
+            }
 
-        /* Hover effect for button */
-        .btn-hover:hover {
-            background: #0056b3;
-            transform: translateY(-3px);
-        }
+            /* Layout */
+            .row-two {
+                display: flex;
+                gap: 30px;
+                flex-wrap: wrap;
+                align-items: stretch;
+            }
 
-        /* Hover effect for goal cards */
-        .about-box .inner:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-        }
-    </style>
-</section>
+            .col-left,
+            .col-right {
+                flex: 1 1 50%;
+                min-width: 280px;
+            }
+
+            .about-card {
+                background: #fff;
+                padding: 18px;
+                border-radius: 12px;
+                box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                min-height: 420px;
+                position: relative;
+                z-index: 1;
+            }
+
+            .about-heading {
+                font-size: 28px;
+                font-weight: 800;
+                margin: 0;
+            }
+
+            .about-text {
+                line-height: 1.7;
+                font-size: 15.5px;
+                color: #555;
+            }
+
+            .section-title-right {
+                font-size: 32px;
+                font-weight: 800;
+                margin: 0 0 12px;
+                text-align: center;
+            }
+
+            .section-title-right::after {
+                content: '';
+                display: block;
+                width: 64px;
+                height: 4px;
+                margin: 10px auto 0;
+                border-radius: 4px;
+                background: linear-gradient(45deg, #ff0000, #003c95);
+            }
+
+            /* Cards grid */
+            .cards-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 18px;
+                align-items: stretch;
+            }
+
+            .card-link {
+                display: block;
+                height: 100%;
+                text-decoration: none;
+                color: inherit;
+                overflow: visible;
+            }
+
+            /* ===== FLIP CARD: conflict-free implementation ===== */
+            .flip-card {
+                perspective: 1200px;
+                cursor: pointer;
+                margin-bottom: 16px;
+                transition: transform 0.25s ease;
+                will-change: transform;
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            /* Lift on hover: apply only translate to wrapper (no rotate here) */
+            @media (hover: hover) and (pointer: fine) {
+                .flip-card:hover {
+                    transform: translateY(-6px);
+                }
+            }
+
+            /* The rotating container */
+            .flip-card-inner {
+                position: relative;
+                width: 100%;
+                min-height: 180px;
+                transition: transform 0.65s cubic-bezier(.2, .9, .3, 1);
+                transform-style: preserve-3d;
+                -webkit-transform-style: preserve-3d;
+                will-change: transform;
+            }
+
+            /* Front and Back faces */
+            .flip-card-front,
+            .flip-card-back {
+                position: absolute;
+                inset: 0;
+                border-radius: 10px;
+                padding: 16px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+                backface-visibility: hidden;
+                -webkit-backface-visibility: hidden;
+                box-sizing: border-box;
+                /* Ensure faces don't get transformed unexpectedly */
+                transform: none;
+            }
+
+            /* Explicit face rotations */
+            .flip-card-front {
+                transform: rotateY(0deg);
+                z-index: 2;
+                background: linear-gradient(180deg, #fff, #f7fbff);
+            }
+
+            .flip-card-back {
+                transform: rotateY(180deg);
+                z-index: 1;
+                background: linear-gradient(180deg, #f7fbff, #eef6ff);
+                overflow: auto;
+            }
+
+            /* Hover triggers rotation on inner (non-touch devices) */
+            @media (hover: hover) and (pointer: fine) {
+                .flip-card:hover .flip-card-inner {
+                    transform: rotateY(180deg);
+                }
+
+                /* apply visual lift to faces via box-shadow / border-image (no transform) */
+                .flip-card:hover .flip-card-front,
+                .flip-card:hover .flip-card-back {
+                    border-image-source: linear-gradient(45deg, #ff0000, #003c95);
+                    border-image-slice: 1;
+                    border-image-width: 1;
+                    box-shadow: 0 18px 40px rgba(3, 12, 60, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
+                }
+            }
+
+            /* JS toggled flipped class (for touch/click) */
+            .flip-card.flipped .flip-card-inner {
+                transform: rotateY(180deg);
+            }
+
+            .flip-card.flipped .flip-card-front {
+                z-index: 1;
+            }
+
+            .flip-card.flipped .flip-card-back {
+                z-index: 2;
+            }
+
+            /* ensure content remains visible and readable after flip */
+            .flip-card-front *,
+            .flip-card-back * {
+                -webkit-transform-style: preserve-3d;
+                transform-style: preserve-3d;
+            }
+
+            /* Responsive */
+            @media(max-width:992px) {
+                .cards-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+
+                .about-side-image-wrap img {
+                    height: 200px;
+                }
+            }
+
+            @media(max-width:768px) {
+                .row-two {
+                    flex-direction: column;
+                }
+
+                .cards-grid {
+                    grid-template-columns: 1fr;
+                }
+
+                .about-content-row {
+                    flex-direction: column-reverse;
+                    align-items: center;
+                }
+
+                .about-side-image-wrap {
+                    flex: 0 0 auto;
+                    width: 100%;
+                }
+
+                .about-side-image-wrap img {
+                    width: 100%;
+                    height: 220px;
+                    object-fit: cover;
+                }
+
+                .about-text-wrap {
+                    width: 100%;
+                    text-align: center;
+                }
+            }
+        </style>
+    </section>
+
+    <script>
+        // Initialize AOS reliably
+        if (window.AOS) AOS.init({
+            duration: 900,
+            once: true,
+            easing: 'ease-out'
+        });
+
+        // Flip cards: click/tap for touch devices, keyboard support.
+        document.addEventListener('DOMContentLoaded', () => {
+            const flipCards = document.querySelectorAll('.flip-card');
+
+            flipCards.forEach(card => {
+                // ensure focusable
+                if (!card.hasAttribute('tabindex')) card.setAttribute('tabindex', '0');
+
+                // For accessibility: role + aria
+                card.setAttribute('role', 'button');
+
+                // Click / tap toggles for touch devices (also works on desktop)
+                card.addEventListener('click', (e) => {
+                    // Toggle class - hover still works for desktop
+                    card.classList.toggle('flipped');
+
+                    // clear previous timeout
+                    if (card.__unflipTimeout) clearTimeout(card.__unflipTimeout);
+                    // Auto unflip after 6s
+                    card.__unflipTimeout = setTimeout(() => card.classList.remove('flipped'), 6000);
+                }, {
+                    passive: true
+                });
+
+                // Keyboard: Enter or Space toggles flip
+                card.addEventListener('keydown', e => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        card.classList.toggle('flipped');
+                        if (card.__unflipTimeout) clearTimeout(card.__unflipTimeout);
+                        card.__unflipTimeout = setTimeout(() => card.classList.remove('flipped'),
+                            6000);
+                    }
+                });
+            });
+        });
+    </script>
+    {{-- END section --}}
 
 
-<section class="wpo-service-section-s2 section-padding">
-    <div class="container">
+
+
+    {{-- Full width featured products marquee infinite loop --}}
+    @php
+        $items = $product_data->values();
+    @endphp
+
+    <section class="wpo-service-section-s2 section-padding">
+    <div class="container-fluid">
+
         {{-- Section Title --}}
         <div class="row justify-content-center">
             <div class="col-lg-8 col-md-10 col-12">
                 <div class="wpo-section-title-s2">
-                    <h2>Our Featured Products</h2>
+                    <h2>
+                        <span style="color:#0e395b; font-size:34px">Our</span>
+                        <span style="color:#e31e24; font-size:34px"> Featured </span>
+                        <span style="color:#0e395b ; font-size:34px">Products</span>
+                    </h2>
                 </div>
             </div>
         </div>
 
-        {{-- Product Grid --}}
-        <div class="row">
-            @forelse ($product_data as $product)
-                <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-4">
-                    {{-- 1. Improved Product Card --}}
-                    <div class="product-card">
-                        <a href="{{-- route('productDetails', $product->id) --}}" class="product-image-link">
-                            <div class="product-image">
-                                @php
-                                    // Cleaner logic for getting the first image
-                                    $first_image = 'default-product.png'; // Default image
-                                    if (!empty($product->image)) {
-                                        $images = json_decode($product->image);
-                                        if (is_array($images) && !empty($images)) {
-                                            $first_image = $images[0];
-                                        }
-                                    }
-                                @endphp
-                                <img src="{{ asset('productImage/' . $first_image) }}" alt="{{ $product->title }}">
-                            </div>
-                        </a>
-                        <div class="product-content">
-                            <h3 class="product-title">{{ $product->title }}</h3>
+        {{-- Marquee wrapper full width --}}
+        <div class="products-marquee-wrapper-full" aria-label="Featured products marquee" role="region">
+            <div class="products-track-full">
+                {{-- Original items --}}
+                @foreach ($product_data as $product)
+                    @php
+                        $first_image = 'default-product.png';
+                        if (!empty($product->image)) {
+                            $images = json_decode($product->image);
+                            if (is_array($images) && !empty($images)) {
+                                $first_image = $images[0];
+                            }
+                        }
+                    @endphp
 
-                            {{-- 2. Improved PDF Download Button --}}
-                            @if ($product->document)
-                                <a href="{{ asset('ProductDocuments/' . $product->document) }}" target="_blank" class="pdf-download-btn">
-                                    <i class="fas fa-file-pdf"></i>
-                                    <span>Download PDF</span>
-                                </a>
-                            @endif
+                    {{-- Product Item --}}
+                    <div class="marq-item marq-product">
+                        <div class="product-card">
+                            <a href="#" class="product-image-link" aria-label="{{ $product->title }}">
+                                <div class="product-image">
+                                    <img src="{{ asset('productImage/' . $first_image) }}" alt="{{ $product->title }}">
+                                </div>
+                            </a>
+                            <div class="product-content">
+                                <h3 class="product-title" title="{{ $product->title }}">{{ $product->title }}</h3>
+                                @if ($product->document)
+                                    <a href="{{ asset('ProductDocuments/' . $product->document) }}" target="_blank" class="pdf-download-btn">
+                                        <i class="fas fa-file-pdf"></i>
+                                        <span>Download PDF</span>
+                                    </a>
+                                @else
+                                    <div class="pdf-download-placeholder"></div>
+                                @endif
+                            </div>
                         </div>
                     </div>
-                </div>
-            @empty
-                <div class="col-12 text-center">
-                    <p>No products found.</p>
-                </div>
-            @endforelse
+
+                    {{-- Connector Logo after EVERY product --}}
+                    <div class="marq-item marq-connector">
+                        <div class="connector-logo" style="border:2px solid #0e395b;">
+                            <img src="{{ asset('images/logo.png') }}" alt="">
+                        </div>
+                    </div>
+                @endforeach
+
+                {{-- Duplicate items for seamless loop --}}
+                @foreach ($product_data as $product)
+                    @php
+                        $first_image = 'default-product.png';
+                        if (!empty($product->image)) {
+                            $images = json_decode($product->image);
+                            if (is_array($images) && !empty($images)) {
+                                $first_image = $images[0];
+                            }
+                        }
+                    @endphp
+
+                    {{-- Product Item --}}
+                    <div class="marq-item marq-product">
+                        <div class="product-card">
+                            <a href="#" class="product-image-link" aria-label="{{ $product->title }}">
+                                <div class="product-image">
+                                    <img src="{{ asset('productImage/' . $first_image) }}" alt="{{ $product->title }}">
+                                </div>
+                            </a>
+                            <div class="product-content">
+                                <h3 class="product-title" title="{{ $product->title }}">{{ $product->title }}</h3>
+                                @if ($product->document)
+                                    <a href="{{ asset('ProductDocuments/' . $product->document) }}" target="_blank" class="pdf-download-btn">
+                                        <i class="fas fa-file-pdf"></i>
+                                        <span>Download PDF</span>
+                                    </a>
+                                @else
+                                    <div class="pdf-download-placeholder"></div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Connector Logo after EVERY product --}}
+                    <div class="marq-item marq-connector">
+                        <div class="connector-logo" style="border:2px solid #0e395b;">
+                            <img src="{{ asset('images/logo.png') }}" alt="">
+                        </div>
+                    </div>
+                @endforeach
+            </div>
         </div>
 
-        {{-- "View More" button centered --}}
+        {{-- View More --}}
         <div class="text-center mt-4">
-             <a href="{{ route('websiteCategoryList') }}" class="pdf-download-btn">View More Products</a>
+            <a href="{{ route('websiteCategoryList') }}" class="pdf-download-btn view-more-btn">View More Products</a>
         </div>
     </div>
 </section>
 
-{{-- Add this style block at the end of your file or move to your main CSS file --}}
 <style>
-    /* Section Title Styling */
-    .wpo-section-title-s2 {
-        text-align: center;
-        margin-bottom: 50px;
-    }
-    .wpo-section-title-s2 h2 {
-        font-size: 2.5rem;
-        font-weight: 700;
-        color: #333;
-    }
-
-    /* 1. New Product Card Styling */
-    .product-card {
-        background: #ffffff;
-        border: 1px solid #e9ecef;
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-    }
-  .product-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
-    border: 1px solid #e31e24;
-}
-    .product-image {
-        height: 220px;
-        overflow: hidden;
-        background-color: #fdfdfd;
-    }
-    .product-image img {
+    .products-marquee-wrapper-full {
         width: 100%;
+        overflow: hidden;
+        padding: 12px 0;
+        background: #fff;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+        border-radius: 10px;
+        position: relative;
+    }
+
+    .products-track-full {
+        display: flex;
+        gap: 18px;
+        animation: products-scroll-full 30s linear infinite;
+        width: max-content;
+        will-change: transform;
+    }
+
+    .marq-item {
+        flex: 0 0 auto;
+        box-sizing: border-box;
+    }
+
+    .marq-product {
+        width: 220px;
+    }
+
+    .marq-connector {
+        width: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .connector-logo {
+        width: 48px;
+        height: 48px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #fff;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+    }
+
+    .connector-logo img {
+        width: 36px;
+        height: 36px;
+        object-fit: contain;
+        opacity: 0.95;
+    }
+
+    .product-card {
+        display: flex;
+        flex-direction: column;
         height: 100%;
-        object-fit: contain; /* Use 'contain' to show full product, or 'cover' to fill space */
-        transition: transform 0.4s ease;
+        background: #fff;
+        border: 1px solid #e9ecef;
+        border-radius: 10px;
+        transition: transform .3s ease, box-shadow .3s ease;
+        overflow: hidden;
     }
-    .product-card:hover .product-image img {
-        transform: scale(1.08);
+
+    .product-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e31e24;
     }
+
+    .product-image {
+        height: 180px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #fff;
+        padding: 10px;
+    }
+
+    .product-image img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        display: block;
+    }
+
     .product-content {
-        padding: 20px;
+        padding: 12px;
         text-align: center;
         display: flex;
         flex-direction: column;
-        flex-grow: 1; /* Allows content to fill space */
-    }
-    .product-title {
-        font-size: 1.1rem;
-        font-weight: 600;
-        color: #343a40;
-        margin-top: 0;
-        margin-bottom: 15px;
-        flex-grow: 1; /* Pushes the button to the bottom */
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        min-height: 120px;
     }
 
-    /* 2. New PDF Download Button Styling */
-    .pdf-download-btn {
+    .product-title {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #0e395b;
+        margin: 0;
+        line-height: 1.2;
+        height: 2.4em;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        text-overflow: ellipsis;
+        text-align: center;
+    }
+
+    .pdf-download-btn,
+    .pdf-download-placeholder {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        gap: 8px; /* Space between icon and text */
-        padding: 8px 18px;
-        background: linear-gradient(45deg, #0d6efd, #0056b3);
+        gap: 8px;
+        padding: 8px 14px;
+        background: #0e395b;
         color: #fff;
-        border-radius: 50px; /* Pill shape */
+        border-radius: 999px;
         text-decoration: none;
         font-weight: 500;
-        font-size: 0.9rem;
-        transition: all 0.3s ease;
+        font-size: .88rem;
         border: none;
         cursor: pointer;
+        width: 160px;
+        height: 40px;
+        box-sizing: border-box;
+        transition: all 0.3s ease;
     }
-    .pdf-download-btn i {
-        font-size: 1.1em; /* Make icon slightly bigger than text */
+
+    .pdf-download-btn:hover,
+    .view-more-btn:hover {
+        background: #e31e24;
+        transform: scale(1.03);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
     }
-    .pdf-download-btn:hover {
-        background: linear-gradient(45deg, #c82333, #a51825);
-        transform: scale(1.05);
+
+    .view-more-btn {
+        display: inline-block;
+        padding: 12px 30px;
+        background: #0e395b;
         color: #fff;
-        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+        border-radius: 999px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        border: 2px solid #0e395b;
     }
 
-    /* General Theme Button for "View More" */
+    .view-more-btn:hover {
+        background: #e31e24;
+        border-color: #e31e24;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(227, 30, 36, 0.3);
+    }
 
+    /* Perfect seamless animation */
+    @keyframes products-scroll-full {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(-50%);
+        }
+    }
+
+    /* Pause animation on hover */
+    .products-marquee-wrapper-full:hover .products-track-full {
+        animation-play-state: paused;
+    }
+
+    /* Responsive styles */
+    @media(max-width: 992px) {
+        .marq-product {
+            width: 180px;
+        }
+        
+        .product-image {
+            height: 150px;
+        }
+        
+        .products-track-full {
+            animation-duration: 25s;
+        }
+    }
+
+    @media(max-width: 768px) {
+        .marq-product {
+            width: 160px;
+        }
+        
+        .marq-connector {
+            width: 50px;
+        }
+        
+        .connector-logo {
+            width: 40px;
+            height: 40px;
+        }
+        
+        .connector-logo img {
+            width: 30px;
+            height: 30px;
+        }
+        
+        .product-image {
+            height: 130px;
+        }
+        
+        .product-content {
+            min-height: 110px;
+            padding: 10px;
+        }
+        
+        .product-title {
+            font-size: 0.9rem;
+        }
+        
+        .pdf-download-btn,
+        .pdf-download-placeholder {
+            width: 140px;
+            height: 36px;
+            font-size: 0.8rem;
+            padding: 6px 12px;
+        }
+        
+        .products-track-full {
+            animation-duration: 20s;
+            gap: 15px;
+        }
+    }
+
+    @media(max-width: 576px) {
+        .marq-product {
+            width: 140px;
+        }
+        
+        .marq-connector {
+            display: none;
+        }
+        
+        .products-track-full {
+            gap: 12px;
+            animation-duration: 15s;
+        }
+        
+        .product-image {
+            height: 120px;
+        }
+        
+        .product-content {
+            min-height: 100px;
+        }
+        
+        .product-title {
+            font-size: 0.85rem;
+        }
+        
+        .pdf-download-btn,
+        .pdf-download-placeholder {
+            width: 120px;
+            height: 32px;
+            font-size: 0.75rem;
+            padding: 5px 10px;
+        }
+    }
 </style>
-
-
 
 
 
@@ -508,50 +1061,50 @@
     </section> --}}
 
     <section class="why-us">
-    <div class="container">
-        <div class="row align-items-center">
-            <!-- Left Column: Title & Description -->
-            <div class="col-md-6">
-                <div class="sub-title">
-                    @if($choose_data->first())
-                        <h2>{{ $choose_data->first()->title }}</h2>
-                        <div class="disc">
-                            <p>{!! $choose_data->first()->description !!}</p>
-                        </div>
-                    @endif
+        <div class="container">
+            <div class="row align-items-center">
+                <!-- Left Column: Title & Description -->
+                <div class="col-md-6">
+                    <div class="sub-title">
+                        @if ($choose_data->first())
+                            <h2>{{ $choose_data->first()->title }}</h2>
+                            <div class="disc">
+                                <p>{!! $choose_data->first()->description !!}</p>
+                            </div>
+                        @endif
+                    </div>
                 </div>
-            </div>
 
-            <!-- Right Column: Points -->
-            <div class="col-md-6">
-                <div class="row">
-                    @if($choose_data->first())
-                        @php
-                            $points_titles = $choose_data->first()->points_title; // already an array
-                            $points_images = $choose_data->first()->points_image; // already an array
-                        @endphp
+                <!-- Right Column: Points -->
+                <div class="col-md-6">
+                    <div class="row">
+                        @if ($choose_data->first())
+                            @php
+                                $points_titles = $choose_data->first()->points_title; // already an array
+                                $points_images = $choose_data->first()->points_image; // already an array
+                            @endphp
 
-                        @foreach($points_titles as $index => $point)
-                            <div class="col-md-6 why-box">
-                                <div class="inner">
-                                    <div class="icon">
-                                        @php
-                                            $img = $points_images[$index] ?? 'default-icon.png';
-                                        @endphp
-                                        <img src="{{ asset('chooseImage/' . $img) }}" alt="{{ $point }}">
-                                    </div>
-                                    <div class="text">
-                                        <h5>{{ $point }}</h5>
+                            @foreach ($points_titles as $index => $point)
+                                <div class="col-md-6 why-box">
+                                    <div class="inner">
+                                        <div class="icon">
+                                            @php
+                                                $img = $points_images[$index] ?? 'default-icon.png';
+                                            @endphp
+                                            <img src="{{ asset('chooseImage/' . $img) }}" alt="{{ $point }}">
+                                        </div>
+                                        <div class="text">
+                                            <h5>{{ $point }}</h5>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
-                    @endif
+                            @endforeach
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
 
 
@@ -608,26 +1161,27 @@
     </section> --}}
 
     <section class="wpo-feature-section-s3">
-    <div class="container">
-        <div class="row">
-            @foreach($achievement_data as $achievement)
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12">
-                    <div class="item">
-                        <div class="icon">
-                            <img src="{{ asset('AchievementImage/' . $achievement->image) }}" alt="{{ $achievement->title }}">
-                        </div>
-                        <div class="content">
-                            <h2>
-                                <span class="odometer" data-count="{{ $achievement->count }}">00</span>+
-                            </h2>
-                            <span>{{ $achievement->title }}</span>
+        <div class="container">
+            <div class="row">
+                @foreach ($achievement_data as $achievement)
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                        <div class="item">
+                            <div class="icon">
+                                <img src="{{ asset('AchievementImage/' . $achievement->image) }}"
+                                    alt="{{ $achievement->title }}">
+                            </div>
+                            <div class="content">
+                                <h2>
+                                    <span class="odometer" data-count="{{ $achievement->count }}">00</span>+
+                                </h2>
+                                <span>{{ $achievement->title }}</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-            @endforeach
+                @endforeach
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
 
 
